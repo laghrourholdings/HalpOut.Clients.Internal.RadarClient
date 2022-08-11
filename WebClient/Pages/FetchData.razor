@@ -1,0 +1,76 @@
+﻿@page "/fetchdata"
+@using CommonLibrary.Repositories
+@using CommonLibrary.Entities.InternalService
+@using System.Text.Encodings.Web
+@inject HttpClient _Http
+@inject IObjectRepository<IObject> _ObjectRepository
+
+<PageTitle>Objects Test</PageTitle>
+
+<h1>Objects Test</h1>
+
+<p>InitialRequesting data from the InternalService.</p>
+
+@if (_objects == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Object GUID</th>
+            <th>Creation Date</th>
+            <th>Status</th>
+            <th>LogHandle GUID</th>
+            <th>Descriptor</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (IObject obj in _objects)
+        {
+            <tr>
+                <td>@obj.Id.ToString()</td>
+                <td>@obj.CreationDate.ToString()</td>
+                @if (obj.IsDeleted || obj.IsSuspended)
+                {
+                    <td>
+                        Deleted? @(obj.IsDeleted ? "Yes" : "No")
+                        @if (obj.IsDeleted)
+                        {
+                            <span>@obj.DeletedDate.ToString()</span>
+                        }
+                        Suspended? @(obj.IsDeleted ? "Yes" : "No")
+                        @if (obj.IsDeleted)
+                        {
+                            <span>@obj.SuspendedDate.ToString()</span>
+                        }
+                    </td>
+                }
+                else
+                {
+                    <td>Active</td>
+                }
+                <td>@obj.LogHandleId.ToString()</td>
+                <td>@if (String.IsNullOrEmpty(obj.Descriptor))
+                    {
+                        <span>"No Descriptor"</span>
+                    }
+                    else
+                    {
+                        <span>@obj.Descriptor</span>
+                    }</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+<button class="btn btn-primary" @onclick="OnCreateNewObjectAsync">Create New Object</button>
+
+
+@code {
+}
