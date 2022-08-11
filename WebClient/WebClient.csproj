@@ -12,7 +12,7 @@
         <PackageReference Include="Flurl.Http" Version="3.2.4" />
         <PackageReference Include="Hangfire.Core" Version="1.7.30" />
         <PackageReference Include="Hangfire.InMemory" Version="0.3.4" />
-        <PackageReference Include="LH.ForYou.CommonLibrary" Version="1.0.2" />
+        <PackageReference Include="LH.ForYou.CommonLibrary" Version="1.0.3" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.7" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.7" PrivateAssets="all" />
     </ItemGroup>
