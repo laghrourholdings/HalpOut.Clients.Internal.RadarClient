@@ -8,15 +8,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Flurl" Version="3.0.6" />
-        <PackageReference Include="Flurl.Http" Version="3.2.4" />
-        <PackageReference Include="Hangfire.Core" Version="1.7.30" />
-        <PackageReference Include="Hangfire.InMemory" Version="0.3.4" />
-        <PackageReference Include="LH.ForYou.CommonLibrary" Version="1.0.3" />
+        <PackageReference Include="LH.ForYou.CommonLibrary" Version="1.0.7" />
+        <PackageReference Include="LH.ForYou.CommonLibrary.ClientServices" Version="1.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.7" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.7" PrivateAssets="all" />
     </ItemGroup>
     <ItemGroup>
+        <ProjectReference Include="..\..\CommonLibrary\src\CommonLibrary.ClientServices\CommonLibrary.ClientServices.csproj" />
         <ProjectReference Include="..\..\CommonLibrary\src\CommonLibrary\CommonLibrary.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Logging\Enrichers" />
+      <Folder Include="Logging\Extentions" />
+      <Folder Include="Logging\Implementations" />
+      <Folder Include="Logging\Interfaces" />
     </ItemGroup>
 </Project>

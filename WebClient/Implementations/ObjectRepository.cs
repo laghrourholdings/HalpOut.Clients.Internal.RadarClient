@@ -1,15 +1,12 @@
 ﻿using System.Linq.Expressions;
-using System.Net;
-using CommonLibrary.Entities.InternalService;
-using CommonLibrary.Implementations;
-using CommonLibrary.Repositories;
+using CommonLibrary.Core;
 using CommonLibrary.Settings;
 using Flurl;
 using Flurl.Http;
 
 namespace WebClient.Implementations;
 
-public class ObjectRepository : IObjectRepository<IObject>
+public class ObjectRepository : IRepository<IObject>
 {
     public ObjectRepository()
     {
@@ -17,7 +14,7 @@ public class ObjectRepository : IObjectRepository<IObject>
 
     public async Task<IEnumerable<IObject>> GetAllAsync()
     {
-        return await WebClientSettings.GatewayServiceDevURL
+        return await ServicesSettings.GatewayServiceDevURL
             .AppendPathSegment("objects")
             .GetJsonAsync<IEnumerable<IIObject>>();
     }
@@ -37,13 +34,12 @@ public class ObjectRepository : IObjectRepository<IObject>
         throw new NotImplementedException();
     }
 
-    public async Task CreateAsync(IObject? entity)
+    public Task CreateAsync(
+        IObject entity)
     {
-        if (entity == null)
-            await WebClientSettings.GatewayServiceDevURL
-                .AppendPathSegment("objects").PostAsync();
+        throw new NotImplementedException();
     }
-    
+
 
     public Task UpdateAsync(IObject entity)
     {

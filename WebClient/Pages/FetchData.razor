@@ -1,9 +1,7 @@
 ﻿@page "/fetchdata"
-@using CommonLibrary.Repositories
-@using CommonLibrary.Entities.InternalService
-@using System.Text.Encodings.Web
+@using CommonLibrary.Core
 @inject HttpClient _Http
-@inject IObjectRepository<IObject> _ObjectRepository
+@inject IRepository<IObject> _ObjectRepository
 
 <PageTitle>Objects Test</PageTitle>
 

@@ -1,6 +1,4 @@
-﻿using CommonLibrary.Entities.InternalService;
-using CommonLibrary.Repositories;
-using Hangfire;
+﻿using CommonLibrary.Core;
 using Microsoft.AspNetCore.Components;
 
 namespace WebClient.Pages;
