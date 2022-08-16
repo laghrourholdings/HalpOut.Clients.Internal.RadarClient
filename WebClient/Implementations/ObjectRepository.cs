@@ -46,6 +46,12 @@ public class ObjectRepository : IRepository<IObject>
         throw new NotImplementedException();
     }
 
+    public Task UpdateOrCreateAsync(
+        IObject entity)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task DeleteAsync(IObject entity)
     {
         throw new NotImplementedException();
