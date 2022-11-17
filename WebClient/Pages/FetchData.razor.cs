@@ -5,7 +5,7 @@ namespace WebClient.Pages;
 
 public partial class FetchData : ComponentBase
 {
-    private IEnumerable<IObject> _objects;
+    private IEnumerable<IIObject> _objects;
     
 
     protected override async Task OnInitializedAsync()

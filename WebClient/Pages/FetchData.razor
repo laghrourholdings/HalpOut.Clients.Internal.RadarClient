@@ -1,7 +1,7 @@
 ﻿@page "/fetchdata"
 @using CommonLibrary.Core
 @inject HttpClient _Http
-@inject IRepository<IObject> _ObjectRepository
+@inject IRepository<IIObject> _ObjectRepository
 
 <PageTitle>Objects Test</PageTitle>
 
@@ -28,7 +28,7 @@ else
         </tr>
         </thead>
         <tbody>
-        @foreach (IObject obj in _objects)
+        @foreach (IIObject obj in _objects)
         {
             <tr>
                 <td>@obj.Id.ToString()</td>
