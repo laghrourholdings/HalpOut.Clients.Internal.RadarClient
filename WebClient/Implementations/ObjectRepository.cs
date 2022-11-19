@@ -40,6 +40,11 @@ public class ObjectRepository : IRepository<IObject>
         throw new NotImplementedException();
     }
 
+    public Task RangeAsync(IEnumerable<IObject> entity)
+    {
+        throw new NotImplementedException();
+    }
+
 
     public Task UpdateAsync(IObject entity)
     {
