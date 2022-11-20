@@ -1,13 +1,17 @@
 ﻿@page "/fetchlogs"
-@inject HttpClient Http
+@using CommonLibrary.Logging
+@using CommonLibrary.Core
+@using System.Net
+@inject HttpClient _http
+@inject IRepository<LogHandle> _ObjectRepository
 
 <PageTitle>Weather forecast</PageTitle>
 
-<h1>Weather forecast</h1>
+<h1>Log handles</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<p>Log handles list from database, select to see log messages.</p>
 
-@if (forecasts == null)
+@if (_handles == null)
 {
     <p>
         <em>Loading...</em>
@@ -43,7 +47,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+        forecasts = await WebRequestMethods.Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
     }
 
     public class WeatherForecast
