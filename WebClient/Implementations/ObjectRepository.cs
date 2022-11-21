@@ -6,47 +6,55 @@ using Flurl.Http;
 
 namespace WebClient.Implementations;
 
-public class ObjectRepository : IRepository<IObject>
+public class ObjectRepository : IRepository<IIObject>
 {
     public ObjectRepository()
     {
     }
 
-    public async Task<IEnumerable<IObject>> GetAllAsync()
+    public async Task<IEnumerable<IIObject>?> GetAllAsync()
     {
         return await ServicesSettings.GatewayServiceDevURL
             .AppendPathSegment("objects")
             .GetJsonAsync<IEnumerable<IIObject>>();
     }
 
-    public Task<IEnumerable<IObject>> GetAllAsync(Expression<Func<IObject, bool>> filter)
+    public Task<IEnumerable<IIObject>?> GetAllAsync(Expression<Func<IIObject, bool>> filter)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IObject> GetAsync(Guid Id)
+    public Task<IIObject?> GetAsync(Guid Id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IObject> GetAsync(Expression<Func<IObject, bool>> filter)
+    public Task<IIObject?> GetAsync(Expression<Func<IIObject, bool>> filter)
     {
         throw new NotImplementedException();
     }
 
-    public Task CreateAsync(
-        IObject entity)
+    public async Task CreateAsync(
+        IIObject entity)
+    {
+        await ServicesSettings.GatewayServiceDevURL
+            .AppendPathSegment("objects")
+            .PostAsync();
+    }
+
+    public Task RangeAsync(IEnumerable<IIObject> entity)
     {
         throw new NotImplementedException();
     }
 
-    public Task RangeAsync(IEnumerable<IObject> entity)
+
+    public Task UpdateAsync(IIObject entity)
     {
         throw new NotImplementedException();
     }
 
-
-    public Task UpdateAsync(IObject entity)
+    public Task UpdateOrCreateAsync(
+        IIObject entity)
     {
         throw new NotImplementedException();
     }
@@ -57,12 +65,12 @@ public class ObjectRepository : IRepository<IObject>
         throw new NotImplementedException();
     }
 
-    public Task DeleteAsync(IObject entity)
+    public Task DeleteAsync(IIObject entity)
     {
         throw new NotImplementedException();
     }
 
-    public Task SuspendAsync(IObject entity)
+    public Task SuspendAsync(IIObject entity)
     {
         throw new NotImplementedException();
     }

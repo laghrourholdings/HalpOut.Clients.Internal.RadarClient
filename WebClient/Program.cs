@@ -12,7 +12,7 @@ using WebClient.Implementations;
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
-builder.Services.AddScoped<IRepository<IObject>, ObjectRepository>();
+builder.Services.AddScoped<IRepository<IIObject>, ObjectRepository>();
 builder.Services.AddHttpClient("HttpClient").AddPolicyHandler(
             request => new HttpClientPolicy().LinearHttpRetryPolicy);
 builder.Services.AddSingleton<IClientLogger, DefaultLogger>();

@@ -1,21 +1,21 @@
 ﻿using CommonLibrary.Core;
+using CommonLibrary.Logging;
 using Microsoft.AspNetCore.Components;
 
 namespace WebClient.Pages;
 
 public partial class FetchData : ComponentBase
 {
-    private IEnumerable<IIObject> _objects;
+    private IEnumerable<IIObject>? _objects;
     
-
     protected override async Task OnInitializedAsync()
     {
-        _objects = await _ObjectRepository.GetAllAsync();
+        _objects = await _objectRepository.GetAllAsync();
     }
     
     private async Task OnCreateNewObjectAsync()
     {
-        await _ObjectRepository.CreateAsync(null);
-        _objects = await _ObjectRepository.GetAllAsync();
+        await _objectRepository.CreateAsync(null);
+        _objects = await _objectRepository.GetAllAsync();
     }
 }
