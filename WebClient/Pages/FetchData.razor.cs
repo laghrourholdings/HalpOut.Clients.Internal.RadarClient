@@ -1,5 +1,4 @@
 ﻿using CommonLibrary.Core;
-using CommonLibrary.Logging;
 using Microsoft.AspNetCore.Components;
 
 namespace WebClient.Pages;
