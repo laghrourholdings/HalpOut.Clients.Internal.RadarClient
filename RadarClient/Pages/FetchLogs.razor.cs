@@ -6,13 +6,12 @@ namespace RadarClient.Pages;
 public partial class FetchLogs : ComponentBase, IDisposable
 {
     private List<LogHandle>? _handles;
-
+    private string val;
     private List<LogMessage>? _messages;
-    private System.Threading.Timer _timer;
+    /*private System.Threading.Timer _timer;*/
 
-    public async Task GetData()
+    public async Task GetLogsData()
     {
-        Console.WriteLine("Getting data");
         var getAllAwaiter = await _handlesRepository.GetAllAsync();
         if (getAllAwaiter != null)
         {
@@ -29,7 +28,6 @@ public partial class FetchLogs : ComponentBase, IDisposable
                 if (currentmessage == null)
                 {
                     _messages = _handles.First().Messages;
-                    Console.WriteLine("Message changed!");
                     StateHasChanged();
                 }
             }else
@@ -40,7 +38,6 @@ public partial class FetchLogs : ComponentBase, IDisposable
                 if (currentmessage == null)
                 {
                     _messages = _handles.First().Messages;
-                    Console.WriteLine("Message changed!");
                 }
                 StateHasChanged();
             }
@@ -55,17 +52,17 @@ public partial class FetchLogs : ComponentBase, IDisposable
     
     protected override async Task OnInitializedAsync()
     {
-        _timer = new Timer(_ =>
-        {
-            InvokeAsync(GetData);
-        }, null, 2000, 2000);
+        // _timer = new Timer(_ =>
+        // {
+        //     InvokeAsync(GetData);
+        // }, null, 2000, 2000);
+        await GetLogsData();
     }
  
     
     void IDisposable.Dispose()
     {
-        _timer?.Dispose();
-        _timer = null;
+        // _timer?.Dispose();
+        // _timer = null;
     }
-    
 }

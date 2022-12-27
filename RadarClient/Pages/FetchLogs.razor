@@ -2,8 +2,8 @@
 @using CommonLibrary.Logging
 @using CommonLibrary.Core
 @inject IRepository<LogHandle> _handlesRepository
-
-<PageTitle>Weather forecast</PageTitle>
+@using Syncfusion.Blazor.Grids
+<PageTitle>Fetch Logs</PageTitle>
 
 <h1>Log handles</h1>
 
@@ -17,51 +17,39 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Object Id</th>
-            <th>Object type</th>
-            <th>Descriptor</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var logHandle in _handles)
-        {
-            if (!logHandle.IsDeleted)
-            {
-                <tr  class="@selectedRowClasse(logHandle.Id)" @onclick="() => _messages = logHandle.Messages">
-                    <td>@logHandle.Id</td>
-                    <td>@logHandle.ObjectId</td>
-                    <td>@logHandle.ObjectType</td>
-                    <td>@logHandle.Descriptor</td>
-                </tr>
-            }
-        }
-        </tbody>
-    </table>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <SfButton CssClass="my-4" @onclick="(async () => await GetLogsData())">Refresh</SfButton>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <SfGrid ID="LogHandleGrid" EnablePersistence="true" DataSource="@_handles" AllowSorting="true" AllowReordering="true" AllowTextWrap="true">
+                    <GridColumns>
+                        <GridColumn Field=@nameof(LogHandle.Id) HeaderText="ID" Width="180"></GridColumn>
+                        <GridColumn Field=@nameof(LogHandle.ObjectId) HeaderText="Object ID" Width="180"></GridColumn>
+                        <GridColumn Field=@nameof(LogHandle.ObjectType) HeaderText="Object Type" Width="40"></GridColumn>
+                        <GridColumn Field=@nameof(LogHandle.Descriptor) HeaderText="Descriptor" TextAlign="TextAlign.Justify" Width="120"></GridColumn>
+                    </GridColumns>
+                </SfGrid>
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="col">
+                <SfGrid ID="LogMessageGrid" EnablePersistence="true" DataSource="@_messages" AllowSorting="true" AllowReordering="true" AllowTextWrap="true">
+                    <GridColumns>
+                        <GridColumn Field=@nameof(LogMessage.CreationDate) Format="dd/MM/yyyy H:mm:ss" Type="ColumnType.Date" HeaderText="ID" Width="60"></GridColumn>
+                        <GridColumn Field=@nameof(LogMessage.Severity) HeaderText="Severity" Width="150"></GridColumn>
+                        <GridColumn Field=@nameof(LogMessage.Descriptor) HeaderText="Descriptor" TextAlign="TextAlign.Justify"></GridColumn>
+                    </GridColumns>
+                </SfGrid>
+            </div>
+        </div>
+    </div>
+    
     <br>
-    <h3>Messages</h3>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Creation date</th>
-            <th>Severity</th>
-            <th>Descriptor</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var message in _messages)
-        {
-            <tr>
-                <td>@message.CreationDate</td>
-                <td>@message.Severity</td>
-                <td>@message.Descriptor</td>
-                </tr>
-        }
-        </tbody>
-    </table>
+    
 }
 
 

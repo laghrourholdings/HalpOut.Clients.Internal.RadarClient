@@ -1,19 +1,36 @@
 ﻿@page "/counter"
+@using Syncfusion.Blazor.Layouts
 
 <PageTitle>Counter</PageTitle>
 
-<h1>Counter</h1>
+<SfDashboardLayout CellSpacing="@(new double[]{10 ,10 })" Columns="5">
+    <DashboardLayoutPanels>
+        <DashboardLayoutPanel>
+            <HeaderTemplate><div>Panel 0</div></HeaderTemplate>
+            <ContentTemplate><div>Panel Content</div></ContentTemplate>
+        </DashboardLayoutPanel>
+        <DashboardLayoutPanel SizeX=2 SizeY=2 Column=1>
+            <HeaderTemplate><div>Panel 1</div></HeaderTemplate>
+            <ContentTemplate><div>Panel Content</div></ContentTemplate>
+        </DashboardLayoutPanel>
+        <DashboardLayoutPanel SizeY=2 Column=3>
+            <HeaderTemplate><div>Panel 2</div></HeaderTemplate>
+            <ContentTemplate><div>Panel Content</div></ContentTemplate>
+        </DashboardLayoutPanel>
+        <DashboardLayoutPanel Row=1>
+            <HeaderTemplate><div>Panel 3</div></HeaderTemplate>
+            <ContentTemplate><div>Panel Content</div></ContentTemplate>
+        </DashboardLayoutPanel>
+    </DashboardLayoutPanels>
+</SfDashboardLayout>
 
-<p role="status">Current count: @currentCount</p>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
-
-@code {
-    private int currentCount = 0;
-
-    private void IncrementCount()
-    {
-        currentCount++;
+<style>
+    .e-panel-header {
+        background-color: rgba(0, 0, 0, .1);
+        text-align: center;
     }
-
-}
+    .e-panel-content {
+        text-align: center;
+        margin-top: 10px;
+    }
+</style>

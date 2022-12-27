@@ -1,4 +1,4 @@
-using CommonLibrary.ClientServices.Logging.Implementations;
+﻿using CommonLibrary.ClientServices.Logging.Implementations;
 using CommonLibrary.ClientServices.Logging.Interfaces;
 using CommonLibrary.ClientServices.Policies;
 using CommonLibrary.Core;
