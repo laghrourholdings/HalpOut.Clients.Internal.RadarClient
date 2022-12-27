@@ -17,7 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Logs\Repositories" />
+      <Folder Include="Logging\Repositories" />
     </ItemGroup>
 
 </Project>
