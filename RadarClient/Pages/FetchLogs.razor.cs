@@ -1,5 +1,7 @@
 ﻿using CommonLibrary.Logging;
+using CommonLibrary.Logging.Models;
 using Microsoft.AspNetCore.Components;
+using Syncfusion.Blazor.Grids;
 
 namespace RadarClient.Pages;
 
@@ -8,8 +10,11 @@ public partial class FetchLogs : ComponentBase, IDisposable
     private List<LogHandle>? _handles;
     private string val;
     private List<LogMessage>? _messages;
-    /*private System.Threading.Timer _timer;*/
-
+    private bool autoRefreshLogs = false;
+    private System.Threading.Timer _timer;
+    private SfGrid<LogHandle> logHandleGrid;
+    private double selectedLogHandleIndex;
+    private SfGrid<LogMessage> logMessageGrid;
     public async Task GetLogsData()
     {
         var getAllAwaiter = await _handlesRepository.GetAllAsync();
@@ -18,51 +23,63 @@ public partial class FetchLogs : ComponentBase, IDisposable
             var handles = new List<LogHandle>(getAllAwaiter);
             if (_handles == null)
             {
-                _handles = handles;
-                _messages = _handles.First().Messages;
-                StateHasChanged();
-            } else if (_handles == handles)
-            {
-                var currentmessage = handles.SingleOrDefault(
-                    x => x.Id == _messages.FirstOrDefault().LogHandleId);
-                if (currentmessage == null)
-                {
-                    _messages = _handles.First().Messages;
-                    StateHasChanged();
-                }
-            }else
-            {
-                _handles = handles;
-                var currentmessage = handles.SingleOrDefault(
-                    x => x.Id == _messages.FirstOrDefault().LogHandleId);
-                if (currentmessage == null)
-                {
-                    _messages = _handles.First().Messages;
-                }
-                StateHasChanged();
+                _handles = new List<LogHandle>();
+                _messages = new List<LogMessage>();
             }
-        }
-        else
-        {
-            _handles = new List<LogHandle>();
-            _messages = new List<LogMessage>();
-            StateHasChanged();
+            if (_handles != handles)
+            {
+                _handles = handles;
+                if (_handles != null && _messages != null)
+                {
+                    var currentMessages = _handles.SingleOrDefault(
+                        x => x.Id == _messages.FirstOrDefault()?.LogHandleId);
+                    if (currentMessages == null)
+                    {
+                        _messages = _handles.First().Messages;
+                        selectedLogHandleIndex = 0;
+                    }
+                    else if (currentMessages.Messages != _messages)
+                    {
+                        _messages = currentMessages.Messages;
+                    }
+                }
+            }
         }
     }
     
     protected override async Task OnInitializedAsync()
     {
-        // _timer = new Timer(_ =>
-        // {
-        //     InvokeAsync(GetData);
-        // }, null, 2000, 2000);
         await GetLogsData();
+        _timer = new Timer(_ =>
+        {
+            if(autoRefreshLogs)
+                InvokeAsync(GetLogsData);
+        }, null, 0, 2000);
+    }
+    
+    public void RowSelectHandler(RowSelectEventArgs<LogHandle> args)
+    {
+        _messages = args.Data.Messages;
+        selectedLogHandleIndex = args.RowIndex;
     }
  
+    public void RowSelectHandler(RowSelectEventArgs<LogMessage> args)
+    {
+        
+    }
+
+    
+    
+    
+    public async Task OnDataBound(object args)
+    {
+        await logHandleGrid.SelectRowAsync(selectedLogHandleIndex);
+    }
     
     void IDisposable.Dispose()
     {
-        // _timer?.Dispose();
-        // _timer = null;
+        _timer?.Dispose();
+        _timer = null;
     }
+
 }

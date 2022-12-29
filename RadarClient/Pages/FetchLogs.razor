@@ -1,8 +1,12 @@
 ﻿@page "/fetchlogs"
 @using CommonLibrary.Logging
 @using CommonLibrary.Core
+@using CommonLibrary.Logging.Models
 @inject IRepository<LogHandle> _handlesRepository
 @using Syncfusion.Blazor.Grids
+@using SelectionType = Syncfusion.Blazor.Grids.SelectionType
+@using SelectionMode = Syncfusion.Blazor.Grids.SelectionMode
+@using EventArgs = System.EventArgs
 <PageTitle>Fetch Logs</PageTitle>
 
 <h1>Log handles</h1>
@@ -18,31 +22,43 @@
 else
 {
     <div class="container-fluid">
-        <div class="row">
+        <div class="row mb-2">
             <div class="col">
-                <SfButton CssClass="my-4" @onclick="(async () => await GetLogsData())">Refresh</SfButton>
+                <SfButton CssClass="" @onclick="(async () => await GetLogsData())">Refresh</SfButton>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <SfCheckBox @bind-Checked="autoRefreshLogs" Label="Realtime"></SfCheckBox>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <SfGrid ID="LogHandleGrid" EnablePersistence="true" DataSource="@_handles" AllowSorting="true" AllowReordering="true" AllowTextWrap="true">
+                <SfGrid @ref="logHandleGrid" ID="LogHandleGrid" AllowSelection="true" DataSource="_handles" EnablePersistence="true" AllowSorting="true" AllowReordering="true" AllowTextWrap="true">
+                    <GridSelectionSettings Mode="SelectionMode.Row"  Type="SelectionType.Multiple"></GridSelectionSettings>
+                    <GridEvents  DataBound="OnDataBound" RowSelected="RowSelectHandler" TValue="LogHandle"></GridEvents>
                     <GridColumns>
-                        <GridColumn Field=@nameof(LogHandle.Id) HeaderText="ID" Width="180"></GridColumn>
+                        <GridColumn  Field=@nameof(LogHandle.Id) HeaderText="ID" Width="180"></GridColumn>
                         <GridColumn Field=@nameof(LogHandle.ObjectId) HeaderText="Object ID" Width="180"></GridColumn>
                         <GridColumn Field=@nameof(LogHandle.ObjectType) HeaderText="Object Type" Width="40"></GridColumn>
                         <GridColumn Field=@nameof(LogHandle.Descriptor) HeaderText="Descriptor" TextAlign="TextAlign.Justify" Width="120"></GridColumn>
                     </GridColumns>
+                    <SfSpinner Visible="false"> 
+                    </SfSpinner> 
+                    <GridTextWrapSettings WrapMode="WrapMode.Content"></GridTextWrapSettings>
                 </SfGrid>
             </div>
         </div>
         <div class="row my-4">
             <div class="col">
-                <SfGrid ID="LogMessageGrid" EnablePersistence="true" DataSource="@_messages" AllowSorting="true" AllowReordering="true" AllowTextWrap="true">
+                <SfGrid @ref="logMessageGrid" ID="LogMessageGrid" EnablePersistence="true" DataSource="@_messages" AllowSorting="true" AllowTextWrap="true" AllowReordering="true">
+                    <GridEvents RowSelected="RowSelectHandler" TValue="LogMessage"></GridEvents>
                     <GridColumns>
-                        <GridColumn Field=@nameof(LogMessage.CreationDate) Format="dd/MM/yyyy H:mm:ss" Type="ColumnType.Date" HeaderText="ID" Width="60"></GridColumn>
-                        <GridColumn Field=@nameof(LogMessage.Severity) HeaderText="Severity" Width="150"></GridColumn>
+                        <GridColumn Field=@nameof(LogMessage.CreationDate) Format="dd/MM/yyyy H:mm:ss" Type="ColumnType.Date" HeaderText="Creation date"></GridColumn>
+                        <GridColumn Field=@nameof(LogMessage.Severity) HeaderText="Severity"></GridColumn>
                         <GridColumn Field=@nameof(LogMessage.Descriptor) HeaderText="Descriptor" TextAlign="TextAlign.Justify"></GridColumn>
                     </GridColumns>
+                    <GridTextWrapSettings WrapMode="WrapMode.Content"></GridTextWrapSettings>
                 </SfGrid>
             </div>
         </div>
@@ -52,10 +68,15 @@ else
     
 }
 
-
+<style> 
+    .e-grid .e-spinner-pane{    //hide the Grid spinner 
+        display:none; 
+    } 
+</style> 
 
 
 @code {
     string selectedRowClasse(Guid logHandleId)
         => _messages.First().LogHandleId == logHandleId ? "border-danger table-hover" : "";
+
 }

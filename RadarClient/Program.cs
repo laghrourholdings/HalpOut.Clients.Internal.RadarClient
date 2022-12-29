@@ -3,6 +3,7 @@ using CommonLibrary.ClientServices.Logging.Interfaces;
 using CommonLibrary.ClientServices.Policies;
 using CommonLibrary.Core;
 using CommonLibrary.Logging;
+using CommonLibrary.Logging.Models;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Options;
