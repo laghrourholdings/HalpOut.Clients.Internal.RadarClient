@@ -1,12 +1,9 @@
 ﻿@page "/fetchlogs"
-@using CommonLibrary.Logging
 @using CommonLibrary.Core
 @using CommonLibrary.Logging.Models
 @inject IRepository<LogHandle> _handlesRepository
-@using Syncfusion.Blazor.Grids
 @using SelectionType = Syncfusion.Blazor.Grids.SelectionType
 @using SelectionMode = Syncfusion.Blazor.Grids.SelectionMode
-@using EventArgs = System.EventArgs
 <PageTitle>Fetch Logs</PageTitle>
 
 <h1>Log handles</h1>

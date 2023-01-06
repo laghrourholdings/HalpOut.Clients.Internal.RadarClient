@@ -1,5 +1,4 @@
-﻿using CommonLibrary.Logging;
-using CommonLibrary.Logging.Models;
+﻿using CommonLibrary.Logging.Models;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Grids;
 
