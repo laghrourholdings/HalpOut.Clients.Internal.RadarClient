@@ -31,7 +31,7 @@ public partial class FetchLogs : ComponentBase, IDisposable
                 if (_handles != null && _messages != null)
                 {
                     var currentMessages = _handles.SingleOrDefault(
-                        x => x.Id == _messages.FirstOrDefault()?.LogHandleId);
+                        x => x.LogHandleId == _messages.FirstOrDefault()?.LogHandleId);
                     if (currentMessages == null)
                     {
                         _messages = _handles.First().Messages;

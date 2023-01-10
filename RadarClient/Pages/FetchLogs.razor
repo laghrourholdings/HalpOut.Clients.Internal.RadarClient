@@ -35,7 +35,7 @@ else
                     <GridSelectionSettings Mode="SelectionMode.Row"  Type="SelectionType.Multiple"></GridSelectionSettings>
                     <GridEvents  DataBound="OnDataBound" RowSelected="RowSelectHandler" TValue="LogHandle"></GridEvents>
                     <GridColumns>
-                        <GridColumn  Field=@nameof(LogHandle.Id) HeaderText="ID" Width="180"></GridColumn>
+                        <GridColumn  Field=@nameof(LogHandle.LogHandleId) HeaderText="ID" Width="180"></GridColumn>
                         <GridColumn Field=@nameof(LogHandle.ObjectId) HeaderText="Object ID" Width="180"></GridColumn>
                         <GridColumn Field=@nameof(LogHandle.ObjectType) HeaderText="Object Type" Width="40"></GridColumn>
                         <GridColumn Field=@nameof(LogHandle.Descriptor) HeaderText="Descriptor" TextAlign="TextAlign.Justify" Width="120"></GridColumn>
