@@ -6,41 +6,37 @@ namespace RadarClient.Pages;
 
 public partial class FetchLogs : ComponentBase, IDisposable
 {
-    private List<LogHandleDto>? _handles;
-    private string val;
-    private List<LogMessageDto>? _messages;
-    private bool autoRefreshLogs = false;
+    private List<LogHandleDto> _handles = new();
+    private string _val;
+    private List<LogMessageDto> _messages = new();
+    private bool _autoRefreshLogs = false;
     private System.Threading.Timer _timer;
     private SfGrid<LogHandleDto> logHandleGrid;
-    private double selectedLogHandleIndex;
+    private Guid _selectedLogHandleId = Guid.Empty;
+    private double _selectedLogHandleRowIndex;
     private SfGrid<LogMessageDto> logMessageGrid;
+    
     public async Task GetLogsData()
     {
         var getAllAwaiter = await _handlesRepository.GetAllAsync();
         if (getAllAwaiter != null)
         {
             var handles = new List<LogHandleDto>(getAllAwaiter);
-            if (_handles == null)
-            {
-                _handles = new List<LogHandleDto>();
-                _messages = new List<LogMessageDto>();
-            }
             if (_handles != handles)
             {
                 _handles = handles;
-                if (_handles != null && _messages != null)
+                var selectedLogHandle = _handles.SingleOrDefault(x => x.LogHandleId == _selectedLogHandleId);
+                if (selectedLogHandle == null)
                 {
-                    var currentMessages = _handles.SingleOrDefault(
-                        x => x.Id == _messages.FirstOrDefault()?.LogHandleId);
-                    if (currentMessages == null)
-                    {
-                        _messages = _handles.First().Messages as List<LogMessageDto>;
-                        selectedLogHandleIndex = 0;
-                    }
-                    else if (currentMessages.Messages != _messages)
-                    {
-                        _messages = currentMessages.Messages as List<LogMessageDto>;
-                    }
+                    var x = _handles.First().LogHandleId;
+                    var y = _handles.First().Messages;
+                    _selectedLogHandleId = x;
+                    _messages = y.ToList();
+                    _selectedLogHandleRowIndex = 0;
+                }
+                else if (!Equals(selectedLogHandle.Messages, _messages))
+                {
+                    _messages = selectedLogHandle.Messages.ToList();
                 }
             }
         }
@@ -51,15 +47,16 @@ public partial class FetchLogs : ComponentBase, IDisposable
         await GetLogsData();
         _timer = new Timer(_ =>
         {
-            if(autoRefreshLogs)
+            if(_autoRefreshLogs)
                 InvokeAsync(GetLogsData);
         }, null, 0, 2000);
     }
     
     public void RowSelectHandler(RowSelectEventArgs<LogHandleDto> args)
     {
-        _messages = args.Data.Messages as List<LogMessageDto>;
-        selectedLogHandleIndex = args.RowIndex;
+        _selectedLogHandleId = args.Data.LogHandleId;
+        _messages = args.Data.Messages.ToList();
+        _selectedLogHandleRowIndex = args.RowIndex;
     }
  
     public void RowSelectHandler(RowSelectEventArgs<LogMessageDto> args)
@@ -72,7 +69,7 @@ public partial class FetchLogs : ComponentBase, IDisposable
     
     public async Task OnDataBound(object args)
     {
-        await logHandleGrid.SelectRowAsync(selectedLogHandleIndex);
+        logHandleGrid.SelectRowAsync(_selectedLogHandleRowIndex);
     }
     
     void IDisposable.Dispose()

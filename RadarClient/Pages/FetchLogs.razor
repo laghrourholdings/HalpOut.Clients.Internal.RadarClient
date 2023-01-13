@@ -26,7 +26,7 @@ else
         </div>
         <div class="row mb-4">
             <div class="col">
-                <SfCheckBox @bind-Checked="autoRefreshLogs" Label="Realtime"></SfCheckBox>
+                <SfCheckBox @bind-Checked="_autoRefreshLogs" Label="Realtime"></SfCheckBox>
             </div>
         </div>
         <div class="row">
@@ -35,7 +35,7 @@ else
                     <GridSelectionSettings Mode="SelectionMode.Row"  Type="SelectionType.Multiple"></GridSelectionSettings>
                     <GridEvents  DataBound="OnDataBound" RowSelected="RowSelectHandler" TValue="LogHandleDto"></GridEvents>
                     <GridColumns>
-                        <GridColumn  Field=@nameof(LogHandleDto.Id) HeaderText="ID" Width="180"></GridColumn>
+                        <GridColumn  Field=@nameof(LogHandleDto.LogHandleId) HeaderText="ID" Width="180"></GridColumn>
                         <GridColumn Field=@nameof(LogHandleDto.ObjectId) HeaderText="Object ID" Width="180"></GridColumn>
                         <GridColumn Field=@nameof(LogHandleDto.ObjectType) HeaderText="Object Type" Width="40"></GridColumn>
                         <GridColumn Field=@nameof(LogHandleDto.Descriptor) HeaderText="Descriptor" TextAlign="TextAlign.Justify" Width="120"></GridColumn>
@@ -73,7 +73,5 @@ else
 
 
 @code {
-    string selectedRowClasse(Guid logHandleId)
-        => _messages.First().LogHandleId == logHandleId ? "border-danger table-hover" : "";
 
 }
