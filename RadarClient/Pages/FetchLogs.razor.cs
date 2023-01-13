@@ -1,28 +1,29 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using CommonLibrary.Logging.Models.Dtos;
+using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Grids;
 
 namespace RadarClient.Pages;
 
 public partial class FetchLogs : ComponentBase, IDisposable
 {
-    private List<LogHandle>? _handles;
+    private List<LogHandleDto>? _handles;
     private string val;
-    private List<LogMessage>? _messages;
+    private List<LogMessageDto>? _messages;
     private bool autoRefreshLogs = false;
     private System.Threading.Timer _timer;
-    private SfGrid<LogHandle> logHandleGrid;
+    private SfGrid<LogHandleDto> logHandleGrid;
     private double selectedLogHandleIndex;
-    private SfGrid<LogMessage> logMessageGrid;
+    private SfGrid<LogMessageDto> logMessageGrid;
     public async Task GetLogsData()
     {
         var getAllAwaiter = await _handlesRepository.GetAllAsync();
         if (getAllAwaiter != null)
         {
-            var handles = new List<LogHandle>(getAllAwaiter);
+            var handles = new List<LogHandleDto>(getAllAwaiter);
             if (_handles == null)
             {
-                _handles = new List<LogHandle>();
-                _messages = new List<LogMessage>();
+                _handles = new List<LogHandleDto>();
+                _messages = new List<LogMessageDto>();
             }
             if (_handles != handles)
             {
@@ -30,15 +31,15 @@ public partial class FetchLogs : ComponentBase, IDisposable
                 if (_handles != null && _messages != null)
                 {
                     var currentMessages = _handles.SingleOrDefault(
-                        x => x.LogHandleId == _messages.FirstOrDefault()?.LogHandleId);
+                        x => x.Id == _messages.FirstOrDefault()?.LogHandleId);
                     if (currentMessages == null)
                     {
-                        _messages = _handles.First().Messages;
+                        _messages = _handles.First().Messages as List<LogMessageDto>;
                         selectedLogHandleIndex = 0;
                     }
                     else if (currentMessages.Messages != _messages)
                     {
-                        _messages = currentMessages.Messages;
+                        _messages = currentMessages.Messages as List<LogMessageDto>;
                     }
                 }
             }
@@ -55,13 +56,13 @@ public partial class FetchLogs : ComponentBase, IDisposable
         }, null, 0, 2000);
     }
     
-    public void RowSelectHandler(RowSelectEventArgs<LogHandle> args)
+    public void RowSelectHandler(RowSelectEventArgs<LogHandleDto> args)
     {
-        _messages = args.Data.Messages;
+        _messages = args.Data.Messages as List<LogMessageDto>;
         selectedLogHandleIndex = args.RowIndex;
     }
  
-    public void RowSelectHandler(RowSelectEventArgs<LogMessage> args)
+    public void RowSelectHandler(RowSelectEventArgs<LogMessageDto> args)
     {
         
     }

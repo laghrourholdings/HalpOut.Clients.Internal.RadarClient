@@ -1,6 +1,7 @@
 ﻿@page "/fetchlogs"
 @using CommonLibrary.Core
-@inject IRepository<LogHandle> _handlesRepository
+@using CommonLibrary.Logging.Models.Dtos
+@inject IRepository<LogHandleDto> _handlesRepository
 @using SelectionType = Syncfusion.Blazor.Grids.SelectionType
 @using SelectionMode = Syncfusion.Blazor.Grids.SelectionMode
 <PageTitle>Fetch Logs</PageTitle>
@@ -32,12 +33,12 @@ else
             <div class="col">
                 <SfGrid @ref="logHandleGrid" ID="LogHandleGrid" AllowSelection="true" DataSource="_handles" EnablePersistence="true" AllowSorting="true" AllowReordering="true" AllowTextWrap="true">
                     <GridSelectionSettings Mode="SelectionMode.Row"  Type="SelectionType.Multiple"></GridSelectionSettings>
-                    <GridEvents  DataBound="OnDataBound" RowSelected="RowSelectHandler" TValue="LogHandle"></GridEvents>
+                    <GridEvents  DataBound="OnDataBound" RowSelected="RowSelectHandler" TValue="LogHandleDto"></GridEvents>
                     <GridColumns>
-                        <GridColumn  Field=@nameof(LogHandle.LogHandleId) HeaderText="ID" Width="180"></GridColumn>
-                        <GridColumn Field=@nameof(LogHandle.ObjectId) HeaderText="Object ID" Width="180"></GridColumn>
-                        <GridColumn Field=@nameof(LogHandle.ObjectType) HeaderText="Object Type" Width="40"></GridColumn>
-                        <GridColumn Field=@nameof(LogHandle.Descriptor) HeaderText="Descriptor" TextAlign="TextAlign.Justify" Width="120"></GridColumn>
+                        <GridColumn  Field=@nameof(LogHandleDto.Id) HeaderText="ID" Width="180"></GridColumn>
+                        <GridColumn Field=@nameof(LogHandleDto.ObjectId) HeaderText="Object ID" Width="180"></GridColumn>
+                        <GridColumn Field=@nameof(LogHandleDto.ObjectType) HeaderText="Object Type" Width="40"></GridColumn>
+                        <GridColumn Field=@nameof(LogHandleDto.Descriptor) HeaderText="Descriptor" TextAlign="TextAlign.Justify" Width="120"></GridColumn>
                     </GridColumns>
                     <SfSpinner Visible="false"> 
                     </SfSpinner> 
@@ -48,11 +49,11 @@ else
         <div class="row my-4">
             <div class="col">
                 <SfGrid @ref="logMessageGrid" ID="LogMessageGrid" EnablePersistence="true" DataSource="@_messages" AllowSorting="true" AllowTextWrap="true" AllowReordering="true">
-                    <GridEvents RowSelected="RowSelectHandler" TValue="LogMessage"></GridEvents>
+                    <GridEvents RowSelected="RowSelectHandler" TValue="LogMessageDto"></GridEvents>
                     <GridColumns>
-                        <GridColumn Field=@nameof(LogMessage.CreationDate) Format="dd/MM/yyyy H:mm:ss" Type="ColumnType.Date" HeaderText="Creation date"></GridColumn>
-                        <GridColumn Field=@nameof(LogMessage.Severity) HeaderText="Severity"></GridColumn>
-                        <GridColumn Field=@nameof(LogMessage.Message) HeaderText="Descriptor" TextAlign="TextAlign.Justify"></GridColumn>
+                        <GridColumn Field=@nameof(LogMessageDto.CreationDate) Format="dd/MM/yyyy H:mm:ss" Type="ColumnType.Date" HeaderText="Creation date"></GridColumn>
+                        <GridColumn Field=@nameof(LogMessageDto.Severity) HeaderText="Severity"></GridColumn>
+                        <GridColumn Field=@nameof(LogMessageDto.Message) HeaderText="Descriptor" TextAlign="TextAlign.Justify"></GridColumn>
                     </GridColumns>
                     <GridTextWrapSettings WrapMode="WrapMode.Content"></GridTextWrapSettings>
                 </SfGrid>
