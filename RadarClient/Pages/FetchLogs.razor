@@ -1,6 +1,5 @@
 ﻿@page "/fetchlogs"
 @using CommonLibrary.Core
-@using CommonLibrary.Logging.Models
 @inject IRepository<LogHandle> _handlesRepository
 @using SelectionType = Syncfusion.Blazor.Grids.SelectionType
 @using SelectionMode = Syncfusion.Blazor.Grids.SelectionMode
@@ -53,7 +52,7 @@ else
                     <GridColumns>
                         <GridColumn Field=@nameof(LogMessage.CreationDate) Format="dd/MM/yyyy H:mm:ss" Type="ColumnType.Date" HeaderText="Creation date"></GridColumn>
                         <GridColumn Field=@nameof(LogMessage.Severity) HeaderText="Severity"></GridColumn>
-                        <GridColumn Field=@nameof(LogMessage.Descriptor) HeaderText="Descriptor" TextAlign="TextAlign.Justify"></GridColumn>
+                        <GridColumn Field=@nameof(LogMessage.Message) HeaderText="Descriptor" TextAlign="TextAlign.Justify"></GridColumn>
                     </GridColumns>
                     <GridTextWrapSettings WrapMode="WrapMode.Content"></GridTextWrapSettings>
                 </SfGrid>

@@ -1,5 +1,4 @@
-﻿using CommonLibrary.Logging.Models;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Grids;
 
 namespace RadarClient.Pages;
