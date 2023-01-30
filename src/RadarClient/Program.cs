@@ -1,16 +1,22 @@
-﻿using CommonLibrary.ClientServices.Logging.Implementations;
+﻿using CommonLibrary.ClientServices.Core.Extentions;
+using CommonLibrary.ClientServices.Logging.Implementations;
 using CommonLibrary.ClientServices.Logging.Interfaces;
 using CommonLibrary.ClientServices.Policies;
 using CommonLibrary.Core;
 using CommonLibrary.Logging.Models.Dtos;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using RadarClient;
+using RadarClient.Identity.Provider;
 using Syncfusion.Blazor;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
+builder.Services.AddScoped<UserStateProvider>();
+builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<UserStateProvider>());
+builder.Services.AddCommonLibrary();
 builder.Services.AddScoped<IRepository<LogHandleDto>, LogHandleRepository>();
 builder.Services.AddHttpClient("HttpClient").AddPolicyHandler(
     request => new HttpClientPolicy().LinearHttpRetryPolicy);
