@@ -1,9 +1,17 @@
 ﻿@page "/counter"
 <PageTitle>Counter</PageTitle>
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
-<p>Current count: @CounterState.Value.ClickCount</p>
-<button @onclick="IncrementCount"></button>
-
+<p>Login status: @UserState.Value.IsAuthenticated</p>
+<input placeholder="Username" type="text" @bind="@UserName" /> 
+<input placeholder="Password" type="text" @bind="@Password" />
+<button @onclick="Login">Login</button>
+<button @onclick="SignOut">SignOut</button>
+@code
+{
+    string UserName { get; set; }
+    string Password { get; set; }
+}
 <style>
     .e-panel-header {
         background-color: rgba(0, 0, 0, .1);

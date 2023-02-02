@@ -13,26 +13,25 @@ public class Effects
         _securoman = securoman;
     }
     
-    [EffectMethod(typeof(LoginUserByUsernameAction))]
+    [EffectMethod]
     public async Task HandleLoginUserByUsernameAction(LoginUserByUsernameAction action, IDispatcher dispatcher)
     {
-        if (_securoman.TrySignInWithUsername(action.Username, action.Password, out var user))
-        {
+        var user = await _securoman.SignInWithUsername(action.Username, action.Password);
+        if(user!=null)
             dispatcher.Dispatch(new AddUserAction {User = user});
-        }
     }
     
-    [EffectMethod(typeof(LoginUserByEmailAction))]
+    [EffectMethod]
     public async Task LoginUserByEmailAction(LoginUserByEmailAction action, IDispatcher dispatcher)
     {
-        if (_securoman.TrySignInWithEmail(action.Email, action.Password, out var user))
-        {
+        var user = await _securoman.SignInWithEmail(action.Email, action.Password);
+        if(user!=null)
             dispatcher.Dispatch(new AddUserAction {User = user});
-        }
     }
     [EffectMethod(typeof(SignoutUserAction))]
     public async Task HandleSignOutAction(IDispatcher dispatcher)
     {
         _securoman.SignOut();
+        dispatcher.Dispatch(new RemoveUserAction());
     }
 }

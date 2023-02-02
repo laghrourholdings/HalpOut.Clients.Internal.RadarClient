@@ -1,4 +1,4 @@
-﻿using CommonLibrary.Identity.Models.Dtos;
+﻿using CommonLibrary.Identity.Dtos;
 using Fluxor;
 
 namespace RadarClient.Identity;

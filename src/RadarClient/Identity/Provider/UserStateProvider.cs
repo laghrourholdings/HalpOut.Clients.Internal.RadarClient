@@ -34,7 +34,7 @@ public class UserStateProvider : AuthenticationStateProvider
         }
         return new AuthenticationState(new ClaimsPrincipal(identity));
     }
-    public async Task Logout()
+    public async Task SignOut()
     {
         _dispatcher.Dispatch(new SignoutUserAction());
         NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());

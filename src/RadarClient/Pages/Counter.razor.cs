@@ -1,19 +1,26 @@
 ﻿using Fluxor;
 using Microsoft.AspNetCore.Components;
-using RadarClient.Store;
-using RadarClient.Store.CounterUseCase;
+using RadarClient.Identity;
 
 namespace RadarClient.Pages;
 
 public partial class Counter
 {
     [Inject]
-    private IState<CounterState> CounterState { get; set; }
+    private IState<UserState> UserState { get; set; }
     [Inject]
     public IDispatcher Dispatcher { get; set; }
-    private void IncrementCount()
+    
+    [Inject] 
+    private UserStateProvider authStateProvider { get; set; }
+
+    private async void Login()
     {
-        var action = new IncrementCounterAction();
-        Dispatcher.Dispatch(action);
+        await authStateProvider.LoginWithUsername(UserName, Password);
+    }
+    
+    private async void SignOut()
+    {
+        await authStateProvider.SignOut();
     }
 }
