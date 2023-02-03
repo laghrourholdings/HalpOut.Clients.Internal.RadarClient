@@ -7,6 +7,16 @@
 <input placeholder="Password" type="text" @bind="@Password" />
 <button @onclick="Login">Login</button>
 <button @onclick="SignOut">SignOut</button>
+
+@if (UserState.Value.UserClaims.Any())
+{
+    foreach (var claim in UserState.Value.UserClaims.ToList())
+    {
+        <ul>
+            <li>@claim.Type :: @claim.Value</li>
+        </ul>
+    }
+}
 @code
 {
     string UserName { get; set; }
