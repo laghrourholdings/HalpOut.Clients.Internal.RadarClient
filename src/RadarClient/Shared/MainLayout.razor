@@ -1,16 +1,22 @@
-﻿@inherits Fluxor.Blazor.Web.Components.FluxorLayout;
-<div class="page">
-    <div class="sidebar">
-        <NavMenu/>
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using RadarClient.Identity
+@inject NavigationManager navigationManager
+@inject UserStateProvider authStateProvider
+@inherits Fluxor.Blazor.Web.Components.FluxorLayout;
+<CascadingAuthenticationState>
+    <div class="page">
+        <div class="sidebar">
+            <NavMenu/>
         </div>
+        <main>
+            <div class="top-row px-4">
+                <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            </div>
+            
+            <article class="content px-4">
+                @Body
+            </article>
+        </main>
+    </div>
+    </CascadingAuthenticationState>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
